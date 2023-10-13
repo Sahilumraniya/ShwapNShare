@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container mx-auto flex flex-col md:flex-row justify-between">
         <div className="md:w-1/2">
           <h3 className="text-2xl font-bold">Online TradeHub</h3>
-          <p className="mt-4">
+          <p className="mt-4 mx-2">
             Thanks for choosing Online TradeHub. Follow us on social media to
             stay up to date on new items and community events.
           </p>

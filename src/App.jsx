@@ -31,7 +31,7 @@ function App() {
   return !loading ? (
     <>
       <Header />
-      <div className="w-full">
+      <div className="w-full bg-violet-300">
         <div className="w-full">
           <main className="w-full">
             <Outlet />
@@ -42,7 +42,12 @@ function App() {
     </>
   ) : (
     <>
-      <div>Loading..</div>
+      <div className="w-full h-[100vh] flex items-center justify-center">
+        <img
+          src="https://wpamelia.com/wp-content/uploads/2018/11/ezgif-2-6d0b072c3d3f.gif"
+          alt="Loading...."
+        />
+      </div>
     </>
   );
 }

@@ -12,7 +12,18 @@ const Home = () => {
     });
   }, []);
   if (products.length === 0) {
-    return <div className="text-center">No Product Found</div>;
+    return (
+      <div className="bg-white text-center w-full h-full">
+        {" "}
+        <Hero />{" "}
+        <img
+          className="m-auto"
+          src="https://www.pharmacy.precureplus.com/assets/site/images/no_result.gif"
+          alt="No product"
+        />{" "}
+        <AboutUS />{" "}
+      </div>
+    );
   }
   return (
     <>

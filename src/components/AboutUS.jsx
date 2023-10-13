@@ -2,7 +2,7 @@ import React from "react";
 
 function About() {
   return (
-    <div className="bg-white py-16">
+    <div className="bg-violet-200 py-16">
       <div className="container mx-auto flex flex-col md:flex-row items-center">
         <div className="md:w-1/2 p-4">
           <img

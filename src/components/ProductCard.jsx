@@ -13,18 +13,25 @@ const ProductCard = ({
 }) => {
   return (
     <Link to={`/product/${$id}`}>
-      <div className="bg-white w-full h-[350px] rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
-      <img
+      <div className="w-full h-[350px] rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
+        <img
           src={appwriteService.getImagePreview(image)}
           alt={name}
-          className="w-full h-[80%] object-cover"
+          className="w-full h-[75%] object-fill"
         />
-      <div className="p-4 h-[20%]">
-        <h2 className="text-xl font-semibold text-gray-900">{name}</h2>
-        <p className="text-green-600 font-semibold mb-2">Price: ₹{price}</p>
-        <p className="text-gray-700 text-sm">{description}</p>
+        <div className="px-4 h-[25%] bg-gray-800">
+          <h2 className="text-xl font-semibold text-white">{name}</h2>
+          {isExchange ? (
+            <p className="text-green-600 font-semibold mb-2">
+              Exchange Available
+            </p>
+          ) : (
+            <p className="text-green-600 font-semibold mb-2">Price: ₹{price}</p>
+          )}
+
+          <p className="text-white text-sm">{description}</p>
+        </div>
       </div>
-    </div>
     </Link>
   );
 };

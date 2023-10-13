@@ -61,6 +61,20 @@ export class AuthSerivce {
       throw e;
     }
   }
+
+  async getUser(id){
+    try {
+      const data =  await this.account.get(id);
+      if(data){
+        console.log("AuthSerivce :: getUser: ", data);
+        return data;
+      }
+    } catch (e) {
+      console.log("AuthSerivce :: getUser: ", e);
+      throw e;
+    }
+  }
+
 }
 
 const authserivce = new AuthSerivce();
