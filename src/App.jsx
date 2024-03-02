@@ -17,7 +17,7 @@ function App() {
       .getCurrentUser()
       .then((userData) => {
         if (userData) {
-          console.log(userData);
+          console.log("App : " + userData);
           dispatch(login({ userData }));
         } else {
           dispatch(logout());

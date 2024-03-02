@@ -1,19 +1,11 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import appwriteService from "../appwrite/config";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({
-  $id,
-  name,
-  description,
-  isExchange,
-  items,
-  price,
-  image,
-}) => {
+const ProductCard = ({ $id, name, description, isExchange, price, image }) => {
   return (
     <Link to={`/product/${$id}`}>
-      <div className="w-full h-[350px] rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
+      <div className="md:w-full h-full md:h-[350px] rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
         <img
           src={appwriteService.getImagePreview(image)}
           alt={name}

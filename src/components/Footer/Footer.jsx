@@ -5,12 +5,12 @@ const Footer = () => {
     <footer className="bg-gray-800 text-white py-8">
       <div className="container mx-auto flex flex-col md:flex-row justify-between">
         <div className="md:w-1/2">
-          <h3 className="text-2xl font-bold">Online TradeHub</h3>
+          <h3 className="mx-2 text-2xl font-bold">Online TradeHub</h3>
           <p className="mt-4 mx-2">
             Thanks for choosing Online TradeHub. Follow us on social media to
             stay up to date on new items and community events.
           </p>
-          <div className="mt-4 flex">
+          <div className="mx-2 mt-4 flex">
             <a href="#" className="text-blue-400 hover:text-blue-600 mr-4">
               <Instagram size={20} />
             </a>

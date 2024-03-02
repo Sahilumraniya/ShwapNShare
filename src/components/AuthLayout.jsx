@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function Protected({ children, authenication = true }) {
   const navigate = useNavigate();
-  console.log('Protected',children);
+  console.log("Protected", children);
   const [loading, setLoading] = useState(true);
 
   const authStatus = useSelector((state) => state.auth.status);

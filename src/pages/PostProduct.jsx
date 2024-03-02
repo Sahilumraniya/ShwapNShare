@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Button } from "../components";
+import { Button, Loading } from "../components";
 import { useSelector } from "react-redux";
 import service from "../appwrite/config";
 import authserivce from "../appwrite/auth";
@@ -39,11 +40,11 @@ const productProduct = () => {
     console.log("res", res.email);
     setEmail(res.email);
     return res;
-  }
+  };
 
   return product ? (
-    <div className="py-4 md:py-8 bg-slate-200">
-      <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
+    <div className="flex flex-col md:flex-row py-4 md:py-8 bg-slate-200">
+      <div className="w-full md:w-[60%] md:h-[50vh] h-[40vh] flex justify-center mb-4 relative border rounded-xl p-2">
         <img
           src={service.getImagePreview(product.image)}
           alt={product.name}
@@ -63,36 +64,64 @@ const productProduct = () => {
           </div>
         )}
       </div>
-      <div className="w-full mb-4 md:mb-6">
-        <h1 className="text-xl md:text-2xl font-bold px-5">{product.name}</h1>
-      </div>
-      <div className="px-5 py-3">
-        <h1 className="text-lg md:text-xl font-bold">Description</h1>
-        <p>{product.description}</p>
-      </div>
-      {product.isExchange ? (
-        <div className="px-5 py-3">
-          <h1 className="text-lg md:text-xl font-bold">Exchange Items : </h1>
-          {/* <p>{product.items}</p> */}
-          <ul>
-            {product.items.map((item, index) => (
-              <div key={index}>
-                {index== product.items.length-1 ? (<li className="inline-block">{item}</li> ): (<li className="inline-block">{item} or </li> )} 
-              </div>
-            ))}
-          </ul>
-          <button onClick={()=> getUserData(product.userId)} className="bg-blue-600 my-7 text-white hover:scale-95 duration-100 p-2 rounded-lg">Exchange</button>
+      <div>
+        <div className="w-full mb-4 md:mb-6">
+          <h1 className="text-xl md:text-2xl font-bold px-5">{product.name}</h1>
         </div>
-      ) : (
         <div className="px-5 py-3">
-          <h1 className="text-lg md:text-xl font-bold">Price</h1>
-          <p>₹{product.price}</p>
-          <button onClick={()=> getUserData(product.userId)} className="bg-blue-600 my-7 text-white hover:scale-95 duration-100 p-2 rounded-lg w-36">Buy</button>
+          <h1 className="text-lg md:text-xl font-bold">Description</h1>
+          <p>{product.description}</p>
         </div>
-      )}
-      {email && <p className="text-3xl mx-4 font-semibold">Please Contect with : <a href={`mailto:${email}`}>{email}</a></p>}
+        {product.isExchange ? (
+          <div className="px-5 py-3">
+            <h1 className="text-lg md:text-xl font-bold">Exchange Items : </h1>
+            {/* <p>{product.items}</p> */}
+            <ul>
+              {product.items.map((item, index) => (
+                <div key={index}>
+                  {index == product.items.length - 1 ? (
+                    <li className="inline-block">{item}</li>
+                  ) : (
+                    <li className="inline-block">{item} or </li>
+                  )}
+                </div>
+              ))}
+            </ul>
+            <button
+              onClick={() => getUserData(product.userId)}
+              className="bg-blue-600 my-7 text-white hover:scale-95 duration-100 p-2 rounded-lg"
+            >
+              Exchange
+            </button>
+          </div>
+        ) : (
+          <div className="px-5 py-3">
+            <h1 className="text-lg md:text-xl font-bold">Price</h1>
+            <p>₹{product.price}</p>
+            <button
+              onClick={() => getUserData(product.userId)}
+              className="bg-blue-600 my-7 text-white hover:scale-95 duration-100 p-2 rounded-lg w-36"
+            >
+              Buy
+            </button>
+          </div>
+        )}
+        {email && (
+          <p className="text-2xl mx-4 font-semibold">
+            Please Contect with :{" "}
+            <a
+              href={`mailto:${email}`}
+              className="text-blue-500 hover:underline"
+            >
+              {email}
+            </a>
+          </p>
+        )}
+      </div>
     </div>
-  ) : null;
+  ) : (
+    <Loading />
+  );
 };
 
 export default productProduct;

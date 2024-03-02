@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import LogoutBtn from "./LogoutBtn";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
+// eslint-disable-next-line react/prop-types
 const Header = () => {
   const authStatus = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
@@ -58,7 +59,11 @@ const Header = () => {
         </button>
 
         {/* Mobile Menu */}
-        <nav className={`md:hidden ${menuOpen ? "block" : "hidden"} absolute top-[10%] right-0 z-20`}>
+        <nav
+          className={`md:hidden ${
+            menuOpen ? "block" : "hidden"
+          } absolute top-[10%] right-0 z-20`}
+        >
           <ul className="text-center p-4 bg-gray-900">
             {navItems.map(
               (item) =>

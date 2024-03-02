@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { useDispatch } from "react-redux";
 import authserivce from "../../appwrite/auth";
 import { logout } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
 
+// eslint-disable-next-line react/prop-types
 const LogoutBtn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
