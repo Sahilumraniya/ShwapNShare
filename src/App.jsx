@@ -1,16 +1,18 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import "./App.css";
 import { useDispatch } from "react-redux";
 import authserivce from "./appwrite/auth.js";
 import { login, logout } from "./store/authSlice";
-import { Header, Footer } from "./components";
+import { Footer, Loading } from "./components";
 import { Outlet } from "react-router-dom";
+import { FloatingNav } from "./components/ui/floating-navbar.jsx";
+import { useTheme } from "./context/ThemeContext.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-
-  console.log("App");
+  const { theme } = useTheme();
 
   useEffect(() => {
     authserivce
@@ -26,28 +28,25 @@ function App() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [dispatch]);
 
   return !loading ? (
     <>
-      <Header />
-      <div className="w-full bg-violet-300">
-        <div className="w-full">
-          <main className="w-full">
-            <Outlet />
-          </main>
+      <div className={theme}>
+        <FloatingNav />
+        <div className="w-full bg-violet-300">
+          <div className="w-full">
+            <main className="w-full">
+              <Outlet />
+            </main>
+          </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
     </>
   ) : (
     <>
-      <div className="w-full h-[100vh] flex items-center justify-center">
-        <img
-          src="https://wpamelia.com/wp-content/uploads/2018/11/ezgif-2-6d0b072c3d3f.gif"
-          alt="Loading...."
-        />
-      </div>
+      <Loading />
     </>
   );
 }

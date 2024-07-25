@@ -120,7 +120,9 @@ export class Service{
     }
 
     getImagePreview(id){
-        return this.bucket.getFilePreview(conf.appwriteBucketId,id);
+        const image =  this.bucket.getFilePreview(conf.appwriteBucketId,id);
+        console.log("Service :: getImagePreview: ", image.href);
+        return image;
     }
 
 }

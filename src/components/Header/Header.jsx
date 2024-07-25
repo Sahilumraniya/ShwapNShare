@@ -71,7 +71,7 @@ const Header = () => {
                   <li key={item.slug}>
                     <button
                       onClick={() => {
-                        console.log("Slug: ", item.slug);
+                        // console.log("Slug: ", item.slug);
                         navigate(item.slug);
                         toggleMenu(); // Close the menu when a menu item is clicked
                       }}

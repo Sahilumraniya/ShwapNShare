@@ -1,30 +1,31 @@
+/* eslint-disable react/jsx-no-undef */
+"use client";
+import { motion } from "framer-motion";
+import { HeroHighlight, Highlight } from "./ui/hero-highlight";
 
-import Typical from "react-typical";
-
-function Hero() {
+export function Hero() {
   return (
-    <div
-      className="relative bg-cover bg-center h-96 flex items-center text-white z-0"
-      style={{
-        backgroundImage:
-          "url(https://10web-site.ai/17/wp-content/uploads/sites/19/2023/10/recycled-shoe-store-hero-image-bg_rJ4X96j6.webp)",
-      }}
-    >
-      <div className="absolute inset-0 bg-black opacity-50"></div>
-      <div className="container mx-auto relative z-10 text-center">
-        <h1 className="text-4xl font-bold mb-4"><span className="text-[#e1d3ff] duration-75"> <Typical
-            steps={['Welcome to TradeHub!', 1000,'Swap with Ease.',3000,'Discover. Share. Exchange.',4000]}
-            loop={Infinity}
-          /> </span></h1>
-        <p className="text-lg mb-8">
-          Discover, Share, and Exchange Your Items and Skills
-        </p>
-        <button className="bg-white text-blue-900 font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 hover:text-white transition-colors duration-300">
-          Get Started
-        </button>
-      </div>
-    </div>
+    <HeroHighlight>
+      <motion.h1
+        initial={{
+          opacity: 0,
+          y: 20,
+        }}
+        animate={{
+          opacity: 1,
+          y: [20, -5, 0],
+        }}
+        transition={{
+          duration: 0.5,
+          ease: [0.4, 0.0, 0.2, 1],
+        }}
+        className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
+      >
+        Welcome to Trade-Hub <br /><br />
+        <Highlight className="text-black dark:text-white">
+        Explore the World of Books, Video Games, and Electronic Gadgets!
+        </Highlight>
+      </motion.h1>
+    </HeroHighlight>
   );
 }
-
-export default Hero;

@@ -13,6 +13,7 @@ import EditProduct from "./pages/EditProduct.jsx";
 import AllProduct from "./pages/AllProduct.jsx";
 import PostProduct from "./pages/PostProduct.jsx";
 import { AuthLayout } from "./components/index.js";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
 
 const router = createBrowserRouter([
   {
@@ -65,8 +66,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <ThemeProvider>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </ThemeProvider>
   </React.StrictMode>
 );

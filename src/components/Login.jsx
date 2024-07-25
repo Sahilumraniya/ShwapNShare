@@ -1,18 +1,25 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/authSlice";
-import { Button, Input } from "./index";
 import { useDispatch } from "react-redux";
 import authserivce from "../appwrite/auth";
 import { useForm } from "react-hook-form";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { cn } from "../lib/util";
+import Loading from "./Loading";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const [error, serError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handlelogin = async (data) => {
+    setLoading(true);
     serError("");
     try {
       const session = await authserivce.login(data);
@@ -21,6 +28,7 @@ const Login = () => {
         if (userData) {
           dispatch(login({ userData }));
           navigate("/");
+          setLoading(false);
         }
       }
     } catch (e) {
@@ -29,57 +37,67 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full text-black">
-      <div
-        className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}
-      >
-        <div className="mb-2 flex justify-center">
-          <span className="inline-block w-full max-w-[100px]">
-            <h2>Trade-Hub</h2>
-          </span>
-        </div>
-        <h2 className="text-center text-2xl font-bold leading-tight">
-          Sign in to your account
-        </h2>
-        <p className="mt-2 text-center text-base text-black/60">
-          Don&apos;t have any account?&nbsp;
-          <Link
-            to="/signup"
-            className="font-medium text-primary transition-all duration-200 hover:underline"
-          >
-            Sign Up
-          </Link>
+    <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+      {loading && <Loading />}
+      <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
+        Welcome to Trade-Hub
+      </h2>
+      <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+        Login to trade-hub if you can because we don&apos;t have a login flow
+        yet
+      </p>
+      {error && (
+        <p className="text-red-600 mt-8 text-center dark:text-red-400">
+          {error}
         </p>
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-        <form onSubmit={handleSubmit(handlelogin)} className="mt-8">
-          <div className="space-y-5">
-            <Input
-              label="Email: "
-              placeholder="Enter your email"
-              type="email"
-              {...register("email", {
-                required: true,
-                validate: {
-                  matchPatern: (value) =>
-                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                    "Email address must be a valid address",
-                },
-              })}
-            />
-            <Input
-              label="Password: "
-              type="password"
-              placeholder="Enter your password"
-              {...register("password", {
-                required: true,
-              })}
-            />
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-          </div>
-        </form>
-      </div>
+      )}
+      <form className="my-8" onSubmit={handleSubmit(handlelogin)}>
+        <LabelInputContainer className="mb-4">
+          <Label htmlFor="email">Email Address</Label>
+          <Input id="email" placeholder="example@domin.com" type="email" {...register("email", { required: true })} />
+        </LabelInputContainer>
+        <LabelInputContainer className="mb-4">
+          <Label htmlFor="password">Password</Label>
+          <Input id="password" placeholder="••••••••" type="password" {...register("password", { required: true })} />
+        </LabelInputContainer>
+
+        <button
+          className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+          type="submit"
+        >
+          Login &rarr;
+          <BottomGradient />
+        </button>
+
+        <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+
+        <div className="text-center text-neutral-600 dark:text-neutral-300">
+          If you don&apos;t have an account?{" "}
+          <Link to="/signup" className="text-primary">
+            Signup
+          </Link>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+const BottomGradient = () => {
+  return (
+    <>
+      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
+      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+    </>
+  );
+};
+
+const LabelInputContainer = ({
+  children,
+  className,
+}) => {
+  return (
+    <div className={cn("flex flex-col space-y-2 w-full", className)}>
+      {children}
     </div>
   );
 };

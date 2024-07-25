@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useId } from "react";
 
 const Input = React.forwardRef( function Input({
@@ -10,7 +11,7 @@ const Input = React.forwardRef( function Input({
     return (
         <div className={`w-full`}>
             {label && (
-                <label htmlFor={id} className="inline-block mb-1 pl-1">
+                <label htmlFor={id} className="inline-block mb-1 pl-1 text-gray-800 dark:text-white">
                     {label}
                 </label>
             )}

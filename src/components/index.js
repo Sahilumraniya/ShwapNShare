@@ -8,7 +8,7 @@ import Login from "./Login.jsx";
 import Signup from "./Signup.jsx";
 import AuthLayout from "./AuthLayout";
 import ProductForm from "./ProductForm/ProductForm.jsx";
-import Hero from "./Hero.jsx";
+import {Hero} from "./Hero.jsx";
 import AboutUS from "./AboutUS.jsx";
 import Loading from "./Loading.jsx";
 
