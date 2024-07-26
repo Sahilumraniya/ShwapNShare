@@ -5,10 +5,12 @@ import service from "../appwrite/config";
 import { Hero, ProductCard } from "../components";
 import About from "../components/AboutUS";
 import { NoProduct } from "../assets";
+import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
   // console.log("isUser " + isUser);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const Home = () => {
           <button
             className="bg-slate-900 dark:bg-slate-200 text-white dark:text-black py-2 px-4 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-300"
             onClick={() => {
-              window.location.href = "/all-product";
+              navigate("/all-product");
             }}
           >
             View All Products
