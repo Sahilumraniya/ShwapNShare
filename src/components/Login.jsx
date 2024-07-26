@@ -10,29 +10,34 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { cn } from "../lib/util";
 import Loading from "./Loading";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
-  const [error, serError] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handlelogin = async (data) => {
     setLoading(true);
-    serError("");
+    setError("");
     try {
       const session = await authserivce.login(data);
       if (session) {
         const userData = await authserivce.getCurrentUser();
         if (userData) {
+          toast("Login successful", { type: "success" });
           dispatch(login({ userData }));
           navigate("/");
           setLoading(false);
         }
       }
     } catch (e) {
-      serError(e.message);
+      // console.log("Login Error: ", e);
+      setError(e.message);
+      toast(e.message, { type: "error" });
+      setLoading(false);
     }
   };
 
@@ -46,11 +51,6 @@ const Login = () => {
         Login to trade-hub if you can because we don&apos;t have a login flow
         yet
       </p>
-      {error && (
-        <p className="text-red-600 mt-8 text-center dark:text-red-400">
-          {error}
-        </p>
-      )}
       <form className="my-8" onSubmit={handleSubmit(handlelogin)}>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>

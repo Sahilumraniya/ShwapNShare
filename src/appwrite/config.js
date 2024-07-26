@@ -80,9 +80,12 @@ export class Service{
         }
     }
 
-    async getProducts(){
+    async getProducts({limit = 10, offset = 0}) {
         try{
-            return await this.databases.listDocuments(conf.appwriteDatabaseId,conf.appwriteCollectionId);
+            return await this.databases.listDocuments(conf.appwriteDatabaseId,conf.appwriteCollectionId,[
+                Query.limit(limit),
+                Query.offset(offset)
+            ]);
         }catch(e){
             console.log("Service :: getProducts: ", e);
             return false;
