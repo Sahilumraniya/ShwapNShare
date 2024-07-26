@@ -9,10 +9,11 @@ import {
 } from "framer-motion";
 import { cn } from "../../lib/util";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import authserivce from "../../appwrite/auth";
 import { useTheme } from "../../context/ThemeContext";
-
+import { toast } from "react-toastify";
+import { logout } from "../../store/authSlice";
 
 export const FloatingNav = ({
   className,
@@ -20,17 +21,22 @@ export const FloatingNav = ({
 
   const authStatus = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { theme, toggleTheme } = useTheme();
-  const handleLogout = () => {
-    authserivce.logout().then(() => {
+
+  const handleLogout = async () => {
+    try {
+      await authserivce.logout();
+      console.log("Logging out successful, showing toast");
+      toast.success("Logged out successfully");
       dispatch(logout());
-    }).then(() => {
-      // navigate("/");
-      window.location.reload();
-    }).catch((err) => {
-      console.log("Error :: ", err);
-      window.location.reload();
-    });
+      setTimeout(() => {
+        navigate("/");
+      }, 500); // Delay to allow toast to appear
+    } catch (error) {
+      console.error("Error logging out:", error);
+      toast.error("Error logging out");
+    }
   };
 
   const navItems = [

@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { cn } from "../lib/util";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -23,12 +24,14 @@ const Signup = () => {
       if (userData) {
         const uData = await authserivce.getCurrentUser();
         if (uData) {
+          toast("Account created successfully", { type: "success" });
           dispatch(login({ userData }));
           navigate("/");
         }
       }
     } catch (e) {
       setError(e.message);
+      toast(e.message, { type: "error" });
     }
   };
 
@@ -49,11 +52,11 @@ const Signup = () => {
         </LabelInputContainer>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
-          <Input id="email" placeholder="example@domin.com" type="email" {...register("email", { required: true })}/>
+          <Input id="email" placeholder="example@domin.com" type="email" {...register("email", { required: true })} />
         </LabelInputContainer>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" placeholder="••••••••" type="password" {...register("password", { required: true })}/>
+          <Input id="password" placeholder="••••••••" type="password" {...register("password", { required: true })} />
         </LabelInputContainer>
 
         <button
