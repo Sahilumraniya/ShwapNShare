@@ -14,6 +14,7 @@ import AllProduct from "./pages/AllProduct.jsx";
 import PostProduct from "./pages/PostProduct.jsx";
 import { AuthLayout } from "./components/index.js";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
+import { AboutUsPage } from "./pages/AboutUsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
         path: "/product/:id",
         element: <PostProduct />,
       },
+      {
+        path: "/aboutUs",
+        element: <AboutUsPage />
+      }
     ],
   },
 ]);

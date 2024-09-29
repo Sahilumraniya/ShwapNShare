@@ -1,27 +1,26 @@
 /* eslint-disable react/prop-types */
 "use client";
 
-// import React from "react";
 import { Logo } from "../assets";
+import { useTheme } from "../context/ThemeContext";
 
-const Loading = ({ theme = "light" }) => {
+const Loading = () => {
+  const { theme } = useTheme(); // Assuming 'theme' is a boolean
+
   return (
     <div style={styles.overlay}>
-      <div style={{ ...styles.container, ...styles[theme] }}>
+      <div style={{ ...styles.container, ...(theme ? styles.dark : styles.light) }}>
         <img
           alt="logo"
           width={200}
           height={200}
           src={Logo}
-        />
-        <img
-          src="https://wpamelia.com/wp-content/uploads/2018/11/ezgif-2-6d0b072c3d3f.gif"
-          alt="Loading...."
+          style={styles.logo}
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 const styles = {
   overlay: {
@@ -52,7 +51,18 @@ const styles = {
   dark: {
     backgroundColor: "#333",
     color: "#fff",
-  }
+  },
+  logo: {
+    animation: "spin 2s linear infinite", // Spinning animation
+  },
 };
+
+// Add keyframes for the spinning animation
+const styleSheet = document.styleSheets[0];
+styleSheet.insertRule(`
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}`, styleSheet.cssRules.length);
 
 export default Loading;

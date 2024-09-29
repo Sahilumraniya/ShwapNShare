@@ -1,34 +1,27 @@
-/* eslint-disable react/prop-types */
+import React from 'react';
 import { Link } from 'react-router-dom';
-import appwriteService from "../appwrite/config";
-import { BackgroundGradient } from './ui/background-gradient';
 
 const ProductCard = ({ _id, images, name, description, isExchange, price }) => {
   return (
     <Link to={`/product/${_id}`}>
-      <div className="px-4 md:px-5">
-        <BackgroundGradient className="rounded-[22px] w-full md:w-[400px] h-[500px] p-4 bg-white dark:bg-zinc-900">
-          <img
-            src={images}
-            alt="jordans"
-            className="object-cover w-full h-3/4 rounded-sm"
-          />
-          <p className="text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
-            {name}
-          </p>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">
-            {description}
-          </p>
-          <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs font-bold dark:bg-zinc-800">
-            {isExchange ? (
-              <span>Exchange Available</span>
-            ) : (
-              <><span>Buy now</span><span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
-                ₹{price}
-              </span></>
-            )}
-          </button>
-        </BackgroundGradient>
+      <div className="bg-white dark:bg-gray-950 text-gray-950 dark:text-white shadow-lg rounded-lg p-4 w-60 m-2 transition-transform transform hover:scale-105">
+        <img
+          src={images[0]} // Display the first image
+          alt={name}
+          className="h-40 w-full object-cover rounded-md transition-transform duration-300 transform hover:scale-105"
+        />
+        <h3 className="text-lg font-semibold mt-2">{name}</h3>
+        <p className="text-gray-600 dark:text-gray-400 mt-1">{description}</p>
+        <p className="text-lg font-bold mt-2">
+          {isExchange && !price ? (
+            <span className="text-green-400">Exchange Available</span>
+          ) : (
+            `$${price}`
+          )}
+        </p>
+        <button className="mt-2 text-sm rounded-md p-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-300">
+          View Details
+        </button>
       </div>
     </Link>
   );

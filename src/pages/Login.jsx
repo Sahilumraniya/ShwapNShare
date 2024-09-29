@@ -2,7 +2,7 @@ import { Login as LoginComponent } from "../components";
 
 const Login = () => {
   return (
-    <div className="py-20 text-black">
+    <div className="relative top-10 py-20">
       <LoginComponent />
     </div>
   );

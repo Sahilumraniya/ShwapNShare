@@ -3,10 +3,8 @@ import { Meteors } from "../components/ui/meteors";
 
 const AddProduct = () => {
   return (
-    <div className="py-8">
-      <h1 className="text-center text-5xl my-4 font-semibold">Add Product</h1>
+    <div className="relative top-10 py-20">
       <ProductForm />
-      <Meteors number={20} />
     </div>
   );
 };

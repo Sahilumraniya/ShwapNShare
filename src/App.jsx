@@ -4,7 +4,7 @@ import "./App.css";
 import { useDispatch } from "react-redux";
 import authserivce from "./appwrite/auth.js";
 import { login, logout } from "./store/authSlice";
-import { Footer, Loading } from "./components";
+import { Footer, Header, Loading } from "./components";
 import { Outlet } from "react-router-dom";
 import { FloatingNav } from "./components/ui/floating-navbar.jsx";
 import { useTheme } from "./context/ThemeContext.jsx";
@@ -56,10 +56,10 @@ function App() {
 
   return !loading ? (
     <>
-      <div className={theme}>
-        <FloatingNav />
-        <div className="w-full bg-violet-300">
-          <ToastContainer theme={theme} />
+      <div className={`${theme} transition-colors duration-300`}>
+        <Header />
+        <div className={`w-ful ${theme ? 'bg-gray-900' : 'bg-gray-700'}`}>
+          {theme ? <ToastContainer position="bottom-left" theme="dark" /> : <ToastContainer position="bottom-left" theme="light" />}
           <div className="w-full">
             <main className="w-full">
               <Outlet />

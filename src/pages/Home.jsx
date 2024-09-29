@@ -7,6 +7,7 @@ import About from "../components/AboutUS";
 import { NoProduct } from "../assets";
 import { useNavigate } from "react-router-dom";
 import { productService } from "../api/rest.app";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 
 // eslint-disable-next-line react/prop-types
 const Home = () => {
@@ -42,15 +43,13 @@ const Home = () => {
     <div className="bg-white text-center w-full h-full overflow-hidden">
       {" "}
       <Hero />{" "}
-      {(products.length > 0) ? (<div className="w-full py-8 bg-slate-200 dark:bg-slate-950 dark:text-white">
-        <p className="text-4xl font-bold px-10">Products</p>
-        <div className="flex flex-wrap items-center justify-center my-11 mx-2 md:mx-4 w-full gap-x-5 gap-y-10">
-          {products.map((product) => (
-            <div key={product._id}>
-              <ProductCard {...product} />
-            </div>
-          ))}
-        </div>
+      {(products.length > 0) ? (<div className="w-full py-10 bg-slate-200 dark:bg-gray-900 dark:text-white">
+        <h2 className="text-2xl font-bold mb-4">Featured Products</h2>
+        <InfiniteMovingCards
+          items={products}
+          direction="right"
+          speed="slow"
+        />
         <div>
           <button
             className="bg-slate-900 dark:bg-slate-200 text-white dark:text-black py-2 px-4 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-300"
@@ -71,7 +70,6 @@ const Home = () => {
           />{" "}
         </div>)
       }
-      <About />{" "}
     </div>
   );
 };
