@@ -57,7 +57,7 @@ const AllProduct = () => {
   return (
     <div className="w-full">
       {products.length > 0 ? (
-        <div className="w-full py-8 bg-slate-200 dark:bg-slate-950 dark:text-white">
+        <div className="w-full py-8 bg-slate-200 dark:bg-slate-900 dark:text-white">
           <p className="text-4xl font-bold px-10">Products</p>
           <div className="flex flex-wrap items-center justify-center my-11 mx-2 md:mx-4 w-full gap-x-5 gap-y-10">
             {products.map((product) => (

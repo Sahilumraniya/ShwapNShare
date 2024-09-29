@@ -1,11 +1,10 @@
-/* eslint-disable no-undef */
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Loading } from "../components";
 import { useSelector } from "react-redux";
 import { motion } from 'framer-motion';
 import { productService, uploadService, userService } from "../api/rest.app";
+import { useTheme } from '../context/ThemeContext'; // Import the theme context
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -17,18 +16,15 @@ const slideIn = {
   visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
 };
 
-const productProduct = () => {
+const ProductProduct = () => {
+  const { theme } = useTheme(); // Get current theme
   const [product, setProduct] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
-  // console.log("User ::", userData);
-
   const [email, setEmail] = useState(null);
   const isUser = useSelector((state) => state.auth.status);
   const [isAuthor, setIsAuthor] = useState(false);
-  // console.log("isAuth ::", isAuthor, userData, isUser);
-
   const [showEmail, setShowEmail] = useState(false);
 
   const handleActionClick = () => {
@@ -41,9 +37,7 @@ const productProduct = () => {
       productService.get(id).then((res) => {
         if (res) {
           setProduct(res);
-          if (res.userId === userData._id) {
-            setIsAuthor(true);
-          }
+          setIsAuthor(res.userId === userData._id);
         }
       });
     } else {
@@ -52,36 +46,28 @@ const productProduct = () => {
   }, [id, navigate]);
 
   const deleteProduct = async () => {
-    if (isUser === false) return navigate("/login");
-    const res = await productService.remove(id);
-    if (res) {
-      product.images.map((img) => uploadService.remove(img));
-      // uploadService.remove(product.image);
-      navigate("/");
-    }
+    if (!isUser) return navigate("/login");
+    await productService.remove(id);
+    product.images.forEach((img) => uploadService.remove(img));
+    navigate("/");
   };
 
   const getUserData = async (userId) => {
-    if (isUser === false) return navigate("/login");
+    if (!isUser) return navigate("/login");
     const res = await userService.get(userData._id);
-    // console.log("res", res.email);
     setEmail(res.email);
     return res;
   };
 
   return product ? (
-    <div>
-      <div className="flex flex-col min-h-screen md:flex-row py-[30%] md:py-[10%] bg-slate-200 dark:bg-gray-900 transition-colors duration-500 px-6 md:px-20">
-        <div className="w-full md:w-[50%] flex md:mr-5 justify-center relative border rounded-xl p-2 bg-white dark:bg-gray-800 transition-colors duration-500">
-          <motion.img
-            src={product.images[0]}
-            alt={product.name}
-            className="rounded-xl mb-6 object-cover w-full h-full"
-            initial="hidden"
-            animate="visible"
-            variants={fadeIn}
+    <section className={`bg-${theme ? 'gray-900' : 'gray-200'} text-${theme ? 'gray-400' : 'gray-800'} body-font overflow-hidden`}>
+      <div className="container px-5 py-24 mx-auto">
+        <div className={`relative lg:w-4/5 mx-auto flex flex-col lg:flex-row items-center`}>
+          <img
+            alt="Product"
+            className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-fit rounded-lg shadow-lg"
+            src={product.images[0] || "https://dummyimage.com/400x400"}
           />
-
           {isAuthor && (
             <div className="absolute right-3 top-3 md:right-6 md:top-6">
               <Link to={`/edit-product/${product._id}`}>
@@ -94,68 +80,62 @@ const productProduct = () => {
               </Button>
             </div>
           )}
-        </div>
-        <motion.div
-          className="w-full md:w-[50%] px-5 py-3 md:ml-5 bg-white dark:bg-gray-800 transition-colors duration-500 rounded-xl"
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
-        >
-          <h1 className="text-2xl md:text-3xl font-bold text-black dark:text-white">{product.name}</h1>
-          <div className="my-4">
-            <h2 className="text-xl md:text-2xl font-bold text-black dark:text-white">Product Description</h2>
-            <p className="text-neutral-700 dark:text-neutral-300">{product.description}</p>
-          </div>
-
-          {product.isExchange ? (
-            <div className="my-4">
-              <h2 className="text-xl md:text-2xl font-bold text-black dark:text-white">Exchange Items</h2>
-              <p className="text-neutral-700 dark:text-neutral-300">We accept the following items for exchange:</p>
-              <ul className="list-disc list-inside">
-                {product.items.map((item, index) => (
-                  <li key={index} className="inline-block text-neutral-700 dark:text-neutral-300">
-                    {item}
-                    {index < product.items.length - 1 && " or "}
-                  </li>
+          <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+            <h2 className={`text-sm title-font text-${theme ? 'gray-500' : 'gray-600'} tracking-widest`}>
+              {product.brand || "Swap And Share"}
+            </h2>
+            <h1 className={`text-${theme ? 'white' : 'black'} text-3xl title-font font-medium mb-1`}>
+              {product.name || "Product Name"}
+            </h1>
+            <div className="flex mb-4">
+              <span className="flex items-center">
+                {/* Display stars for reviews */}
+                {[...Array(5)].map((_, index) => (
+                  <svg
+                    key={index}
+                    fill="currentColor"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className={`w-4 h-4 ${index < product.rating ? "text-indigo-400" : "text-gray-600"}`}
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                  </svg>
                 ))}
-              </ul>
-              <Button onClick={handleActionClick} className="mt-4">
-                Exchange
-              </Button>
+              </span>
             </div>
-          ) : (
-            <div className="my-4">
-              <h2 className="text-xl md:text-2xl font-bold text-black dark:text-white">Price</h2>
-              <p className="text-neutral-700 dark:text-neutral-300">₹{product.price}</p>
-              <Button onClick={handleActionClick} className="mt-4">
+            <p className={`leading-relaxed mb-6 text-${theme ? 'gray-400' : 'gray-800'}`}>{product.description || "Product description goes here."}</p>
+            <div className="flex justify-between items-center">
+              <span className={`title-font font-medium text-2xl ${theme ? 'text-white' : 'text-black'}`}>{`₹${product.price || "58.00"}`}</span>
+              <Button onClick={handleActionClick} className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
                 Buy Now
               </Button>
             </div>
-          )}
-
-          {showEmail && (
-            <motion.div
-              className="mt-4"
-              initial="hidden"
-              animate="visible"
-              variants={slideIn}
-            >
-              <h3 className="text-lg font-semibold text-black dark:text-white">Contact Information</h3>
-              <p className="text-neutral-700 dark:text-neutral-300">
-                Please contact the seller at:{" "}
-                <a href={`mailto:${email}`} className="text-blue-500 hover:underline">
-                  {email}
-                </a>
-              </p>
-            </motion.div>
-          )}
-        </motion.div>
+            {showEmail && (
+              <motion.div
+                className="mt-4"
+                initial="hidden"
+                animate="visible"
+                variants={slideIn}
+              >
+                <h3 className={`text-lg font-semibold ${theme ? 'text-gray-300' : 'text-black'}`}>Contact Information</h3>
+                <p className={`text-${theme ? 'gray-400' : 'gray-800'}`}>
+                  Please contact the seller at:{" "}
+                  <a href={`mailto:${email}`} className="text-blue-500 hover:underline">
+                    {email}
+                  </a>
+                </p>
+              </motion.div>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   ) : (
     <Loading />
   );
 };
 
-
-export default productProduct;
+export default ProductProduct;

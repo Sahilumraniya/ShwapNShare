@@ -23,7 +23,7 @@ export function Hero() {
       >
         Welcome to SwapNShare <br /><br />
         <Highlight className="text-black dark:text-white">
-        Explore the World of Books, Video Games, and Electronic Gadgets!
+          Explore the World of Books, Video Games, and Electronic Gadgets!
         </Highlight>
       </motion.h1>
     </HeroHighlight>
