@@ -104,6 +104,8 @@ export class Service{
     // file service
 
     async uploadImage(file){
+        console.log("File data ::",file);
+        
         try{
             return await this.bucket.createFile(conf.appwriteBucketId,ID.unique(),file);
         }catch(e){
@@ -124,7 +126,7 @@ export class Service{
 
     getImagePreview(id){
         const image =  this.bucket.getFilePreview(conf.appwriteBucketId,id);
-        console.log("Service :: getImagePreview: ", image.href);
+        // console.log("Service :: getImagePreview: ", image.href);
         return image;
     }
 

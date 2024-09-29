@@ -4,10 +4,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, Loading } from "../index";
-import service from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { getUploadUrlService, productService, uploadService } from "../../api/rest.app";
+import axios from "axios";
 
 const ProductForm = ({ product }) => {
   const navigate = useNavigate();
@@ -16,11 +17,14 @@ const ProductForm = ({ product }) => {
       name: product?.name,
       price: product?.price,
       description: product?.description,
-      image: product?.image,
-      isExchange: product?.isExchange,
+      images: product?.images,
+      isExchange: product?.price ? false : true,
       items: product?.items,
     },
   });
+
+  // console.log("Init ::", product);
+
   const isExchange = watch("isExchange", true); // Default to true
 
   const userData = useSelector((state) => state.auth.userData);
@@ -32,42 +36,88 @@ const ProductForm = ({ product }) => {
     setSubmitting(true);
     try {
       if (product) {
-        const file = data.image[0]
-          ? await service.uploadImage(data.image[0])
-          : null;
-        if (file) {
-          service.deleteImage(product?.image);
-        }
+        // console.log("images :", data.images);
 
-        const dbproduct = await service.updateProduct(product.$id, {
+        const file = data.images[0]
+          ? await getUploadUrlService.create({
+            fileNames: [data.images[0].name]
+          })
+          : null;
+        console.log("file ::", file);
+        await axios.put(file.uploadURL[0].url, data.images[0], {
+          headers: {
+            'Content-Type': file.type,
+          },
+        }).then((res) => {
+          // console.log("prod ::", product.images);
+
+          product.images.map((img) => {
+            // console.log("remove images ::", img);
+
+            uploadService.remove(img)
+          })
+        });
+
+        // const file = data.image[0]
+        //   ? await service.uploadImage(data.image[0])
+        //   : null;
+        // if (file) {
+        //   service.deleteImage(product?.image);
+        // }
+
+        const fileIds = file.uploadURL.map((file) => {
+          // console.log("f ::", file);
+
+          return file.uniqueFileName
+        });
+
+        // console.log("filesIds ::", fileIds);
+
+
+        const dbproduct = await productService.patch(product._id, {
           ...data,
-          image: file ? file.$id : undefined,
+          images: file ? fileIds : undefined,
         });
 
         if (dbproduct) {
-          navigate(`/product/${dbproduct.$id}`);
+          navigate(`/product/${dbproduct._id}`);
         }
       } else {
-        const file = data.image[0]
-          ? await service.uploadImage(data.image[0])
+
+        // console.log("data ::", data.image[0]);
+
+
+        const file = data.images[0]
+          ? await getUploadUrlService.create({
+            fileNames: [data.images[0].name]
+          })
           : null;
+        console.log("file ::", file.uploadURL);
+        await axios.put(file.uploadURL[0].url, data.images[0], {
+          headers: {
+            'Content-Type': file.type,
+          },
+        });
+        // console.log(`Uploaded ${file.uploadURL[0].name} as ${file.uploadURL[0].uniqueFileName}`);
+        // return;
         if (file) {
-          const fileId = file.$id;
+          const fileId = file.uploadURL.map((file) => file.uniqueFileName);
           data.items = data.items.split(",").filter(item => item.trim() !== "");
-          data.image = fileId;
+          data.images = fileId;
           if (data.isExchange === true) data.price = 0;
           const p = {
             name: data.name,
             description: data.description,
-            price: data.price,
-            image: fileId,
+            price: parseInt(data.price),
+            images: fileId,
             isExchange: data.isExchange,
             items: data.items,
-            userId: userData.$id,
+            userId: userData._id,
           };
-          const dbproduct = await service.createProduct(p);
+          // const dbproduct = await service.createProduct(p);
+          const dbproduct = await productService.create(p);
           if (dbproduct) {
-            navigate(`/product/${dbproduct.$id}`);
+            navigate(`/product/${dbproduct._id}`);
             setLoading(false);
           }
         }
@@ -103,13 +153,7 @@ const ProductForm = ({ product }) => {
             {...register("description", { required: true })}
             className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white"
           />
-          <Input
-            name="price"
-            label="Price"
-            type="number"
-            {...register("price", { required: !isExchange })}
-            className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white"
-          />
+
           <div className="flex items-center">
             <input
               type="checkbox"
@@ -121,6 +165,14 @@ const ProductForm = ({ product }) => {
               For Exchange
             </label>
           </div>
+          {!isExchange &&
+            <Input
+              name="price"
+              label="Price"
+              type="number"
+              {...register("price", { required: !isExchange })}
+              className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white"
+            />}
           {isExchange && (
             <Input
               name="items"
@@ -134,7 +186,7 @@ const ProductForm = ({ product }) => {
             label="Product Image"
             type="file"
             accept="image/png, image/jpg, image/jpeg, image/gif"
-            {...register("image")}
+            {...register("images")}
             className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white"
           />
           <Button className="my-5" type="submit" disabled={isSubmitting}>

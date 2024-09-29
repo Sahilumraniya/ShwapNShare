@@ -11,6 +11,8 @@ import { Input } from "./ui/input";
 import { cn } from "../lib/util";
 import Loading from "./Loading";
 import { toast } from "react-toastify";
+import { authentication } from "@feathersjs/authentication-client/lib/hooks";
+import restApp, { authCookieName, authenticationService, cookieStorage, userService } from "../api/rest.app";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,9 +25,27 @@ const Login = () => {
     setLoading(true);
     setError("");
     try {
-      const session = await authserivce.login(data);
+      // const session = await authserivce.login(data);
+      const session = await authenticationService.create({
+        email: data.email,
+        password: data.password,
+        strategy: "local"
+      });
+
+      console.log("seesion ::", session.accessToken);
+
+      localStorage.setItem(authCookieName, session.accessToken);
+      cookieStorage.setItem(authCookieName, session.accessToken);
+
+      await restApp.reAuthenticate();
+
+      // console.log("session ::", session);
+
+
       if (session) {
-        const userData = await authserivce.getCurrentUser();
+        const userData = await userService.get(session.user._id);
+        // console.log("L User ::", userData);
+
         if (userData) {
           toast("Login successful", { type: "success" });
           dispatch(login({ userData }));
@@ -45,10 +65,10 @@ const Login = () => {
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
       {loading && <Loading />}
       <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-        Welcome to Trade-Hub
+        Welcome to SwapNShare
       </h2>
       <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-        Login to trade-hub if you can because we don&apos;t have a login flow
+        Login to SwapNShare if you can because we don&apos;t have a login flow
         yet
       </p>
       <form className="my-8" onSubmit={handleSubmit(handlelogin)}>

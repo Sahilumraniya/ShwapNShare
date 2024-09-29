@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import appwriteService from "../appwrite/config";
 import { BackgroundGradient } from './ui/background-gradient';
 
-const ProductCard = ({ $id, image, name, description, isExchange, price }) => {
+const ProductCard = ({ _id, images, name, description, isExchange, price }) => {
   return (
-    <Link to={`/product/${$id}`}>
+    <Link to={`/product/${_id}`}>
       <div className="px-4 md:px-5">
-      <BackgroundGradient className="rounded-[22px] w-full md:w-[400px] h-[500px] p-4 bg-white dark:bg-zinc-900">
+        <BackgroundGradient className="rounded-[22px] w-full md:w-[400px] h-[500px] p-4 bg-white dark:bg-zinc-900">
           <img
-            src={appwriteService.getImagePreview(image)}
+            src={images}
             alt="jordans"
             className="object-cover w-full h-3/4 rounded-sm"
           />

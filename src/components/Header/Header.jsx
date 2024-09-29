@@ -46,7 +46,7 @@ const Header = () => {
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-3xl font-bold">
           <Link to="/" className="text-blue-400 hover:text-blue-600">
-            Trade-Hub
+            SwapNShare
           </Link>
         </div>
 

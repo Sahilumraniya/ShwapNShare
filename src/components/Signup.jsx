@@ -10,6 +10,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { cn } from "../lib/util";
 import { toast } from "react-toastify";
+import { authenticationService, userService } from "../api/rest.app";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -20,11 +21,27 @@ const Signup = () => {
   const createUser = async (data) => {
     setError("");
     try {
-      const userData = await authserivce.createAccount(data);
+      // const userData = await authserivce.createAccount(data);
+      const userData = await userService.create(data);
+
+      // console.log("userData ::", userData);
+
       if (userData) {
-        const uData = await authserivce.getCurrentUser();
-        if (uData) {
+        // const uData = await authserivce.getCurrentUser();
+
+        const session = await authenticationService.create({
+          email: data.email,
+          password: data.password,
+          strategy: "local"
+        });
+
+        // const uData = await userService.get(userData._id);
+
+        if (session) {
           toast("Account created successfully", { type: "success" });
+
+          const userData = session.user;
+
           dispatch(login({ userData }));
           navigate("/");
         }
@@ -38,10 +55,10 @@ const Signup = () => {
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
       <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-        Welcome to Trade-Hub
+        Welcome to SwapNShare
       </h2>
       <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-        Login to trade-hub if you can because we don&apos;t have a login flow
+        Login to SwapNShare if you can because we don&apos;t have a login flow
         yet
       </p>
 

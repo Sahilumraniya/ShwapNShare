@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ProductForm } from "../components";
 import service from "../appwrite/config";
 import { useNavigate, useParams } from "react-router-dom";
+import { productService } from "../api/rest.app";
 
 const EditProduct = () => {
   const [product, setProduct] = useState(null);
@@ -10,11 +11,18 @@ const EditProduct = () => {
 
   useEffect(() => {
     if (id) {
-      service.getProduct(id).then((res) => {
+
+      productService.get(id).then((res) => {
         if (res) {
           setProduct(res);
         }
       });
+
+      // service.getProduct(id).then((res) => {
+      //   if (res) {
+      //     setProduct(res);
+      //   }
+      // });
     } else {
       navigate("/");
     }

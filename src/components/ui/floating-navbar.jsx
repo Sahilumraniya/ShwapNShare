@@ -14,6 +14,7 @@ import authserivce from "../../appwrite/auth";
 import { useTheme } from "../../context/ThemeContext";
 import { toast } from "react-toastify";
 import { logout } from "../../store/authSlice";
+import { cookieStorage } from "../../api/rest.app";
 
 export const FloatingNav = ({
   className,
@@ -26,9 +27,12 @@ export const FloatingNav = ({
 
   const handleLogout = async () => {
     try {
-      await authserivce.logout();
+      // await authserivce.logout();
       console.log("Logging out successful, showing toast");
       toast.success("Logged out successfully");
+      // sessionStorage.clear();
+      localStorage.clear();
+      cookieStorage.clear();
       dispatch(logout());
       setTimeout(() => {
         navigate("/");

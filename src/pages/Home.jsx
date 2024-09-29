@@ -6,6 +6,7 @@ import { Hero, ProductCard } from "../components";
 import About from "../components/AboutUS";
 import { NoProduct } from "../assets";
 import { useNavigate } from "react-router-dom";
+import { productService } from "../api/rest.app";
 
 // eslint-disable-next-line react/prop-types
 const Home = () => {
@@ -14,15 +15,27 @@ const Home = () => {
   // console.log("isUser " + isUser);
 
   useEffect(() => {
-    service.getProducts({
-      limit: 4,
-      offset: 0,
+
+    productService.find({
+      query: {
+        $limit: 4
+      }
     }).then((res) => {
       console.log("Product :: ", res);
       if (res) {
-        setProducts(res.documents);
+        setProducts(res.data);
       }
-    });
+    })
+
+    // service.getProducts({
+    //   limit: 4,
+    //   offset: 0,
+    // }).then((res) => {
+    //   // console.log("Product :: ", res);
+    //   if (res) {
+    //     setProducts(res.documents);
+    //   }
+    // });
   }, []);
 
   return (
@@ -33,7 +46,7 @@ const Home = () => {
         <p className="text-4xl font-bold px-10">Products</p>
         <div className="flex flex-wrap items-center justify-center my-11 mx-2 md:mx-4 w-full gap-x-5 gap-y-10">
           {products.map((product) => (
-            <div key={product.$id}>
+            <div key={product._id}>
               <ProductCard {...product} />
             </div>
           ))}
