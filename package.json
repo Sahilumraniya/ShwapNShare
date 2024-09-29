@@ -1,5 +1,5 @@
 {
-  "name": "trade-hub",
+  "name": "swapnshare",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,6 +13,11 @@
     "@radix-ui/react-label": "^2.1.0",
     "@reduxjs/toolkit": "^1.9.7",
     "@tabler/icons-react": "^3.11.0",
+    "@feathersjs/authentication-client": "^4.5.11",
+    "@feathersjs/feathers": "^4.5.11",
+    "@feathersjs/rest-client": "^4.5.11",
+    "axios": "^0.27.2",
+    "cookie-storage": "^6.1.0",
     "appwrite": "^13.0.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.3.8",

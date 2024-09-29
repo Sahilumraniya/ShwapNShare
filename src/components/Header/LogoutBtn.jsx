@@ -5,6 +5,7 @@ import { logout } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading";
 import { toast } from "react-toastify";
+import { cookieStorage } from "../../api/rest.app";
 
 const LogoutBtn = () => {
   const navigate = useNavigate();
@@ -14,9 +15,12 @@ const LogoutBtn = () => {
   const handleLogout = async () => {
     setLoading(true);
     try {
-      await authserivce.logout();
+      // await authserivce.logout();
       console.log("Logging out successful, showing toast");
       toast.success("Logged out successfully");
+      // sessionStorage.clear();
+      localStorage.clear();
+      cookieStorage.clear();
       dispatch(logout());
       setTimeout(() => {
         navigate("/");

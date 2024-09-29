@@ -3,6 +3,7 @@ import { Loading, ProductCard } from "../components";
 import service from "../appwrite/config";
 import { NoProduct } from "../assets";
 import Pagination from "../components/Pagination";
+import { productService } from "../api/rest.app";
 
 const AllProduct = () => {
   const [products, setProducts] = useState([]);
@@ -16,13 +17,21 @@ const AllProduct = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const res = await service.getProducts({
-          limit: PRODUCTS_PER_PAGE,
-          offset: (currentPage - 1) * PRODUCTS_PER_PAGE,
-        });
+        // const res = await service.getProducts({
+        //   limit: PRODUCTS_PER_PAGE,
+        //   offset: (currentPage - 1) * PRODUCTS_PER_PAGE,
+        // });
+
+        const res = await productService.find({
+          query: {
+            $limit: PRODUCTS_PER_PAGE,
+            offset: (currentPage - 1) * PRODUCTS_PER_PAGE
+          }
+        })
+
         if (res) {
-          // console.log("Product :: ", res);
-          setProducts(res.documents);
+          console.log("Product :: ", res);
+          setProducts(res.data);
           setTotalProducts(res.total);
         }
       } catch (error) {
@@ -52,7 +61,7 @@ const AllProduct = () => {
           <p className="text-4xl font-bold px-10">Products</p>
           <div className="flex flex-wrap items-center justify-center my-11 mx-2 md:mx-4 w-full gap-x-5 gap-y-10">
             {products.map((product) => (
-              <div key={product.$id}>
+              <div key={product._id}>
                 <ProductCard {...product} />
               </div>
             ))}

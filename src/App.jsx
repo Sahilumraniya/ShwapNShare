@@ -10,6 +10,7 @@ import { FloatingNav } from "./components/ui/floating-navbar.jsx";
 import { useTheme } from "./context/ThemeContext.jsx";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import restApp, { accessTokenService, authCookieName, cookieStorage } from "./api/rest.app.js";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -17,19 +18,40 @@ function App() {
   const { theme } = useTheme();
 
   useEffect(() => {
-    authserivce
-      .getCurrentUser()
-      .then((userData) => {
-        if (userData) {
-          console.log("App : " + userData);
-          dispatch(login({ userData }));
-        } else {
-          dispatch(logout());
-        }
-      })
+    const token = localStorage.getItem(authCookieName) ?? cookieStorage.getItem(authCookieName);
+    accessTokenService.find({
+      headers: {
+        authorization: `Bearer ${token}`,
+      }
+    }).then(async (res) => {
+      if (res) {
+        console.log("App : ", res.accessToken);
+        const userData = res.user;
+        localStorage.setItem(authCookieName, res.accessToken);
+        cookieStorage.setItem(authCookieName, res.accessToken);
+        dispatch(login({ userData }));
+        await restApp.reAuthenticate();
+      } else {
+        dispatch(logout());
+      }
+    })
       .finally(() => {
         setLoading(false);
       });
+
+    // authserivce
+    //   .getCurrentUser()
+    //   .then((userData) => {
+    //     if (userData) {
+    //       console.log("App : " + userData);
+    //       dispatch(login({ userData }));
+    //     } else {
+    //       dispatch(logout());
+    //     }
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
   }, [dispatch]);
 
   return !loading ? (
@@ -37,7 +59,7 @@ function App() {
       <div className={theme}>
         <FloatingNav />
         <div className="w-full bg-violet-300">
-        <ToastContainer theme={theme} />
+          <ToastContainer theme={theme} />
           <div className="w-full">
             <main className="w-full">
               <Outlet />
