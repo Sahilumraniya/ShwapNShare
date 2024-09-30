@@ -7,7 +7,7 @@ import About from "../components/AboutUS";
 import { NoProduct } from "../assets";
 import { useNavigate } from "react-router-dom";
 import { productService } from "../api/rest.app";
-import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import { InfiniteMovingCards } from "../components/ui/infinite-moving-cards";
 
 // eslint-disable-next-line react/prop-types
 const Home = () => {
@@ -48,7 +48,6 @@ const Home = () => {
         <InfiniteMovingCards
           items={products}
           direction="right"
-          speed="slow"
         />
         <div>
           <button
