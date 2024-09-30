@@ -1,4 +1,4 @@
-import { useTheme } from "@/context/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";

@@ -1,5 +1,4 @@
 import { TextGenerateEffect } from "./ui/text-generate-effect";
-import { LampContainer } from "./ui/vortex";
 import { motion } from "framer-motion";
 
 function About() {
