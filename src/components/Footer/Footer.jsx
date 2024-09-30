@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Instagram, Facebook, Twitter } from "react-feather";
-import { useTheme } from "@/context/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
 
 const Footer = () => {
   const { theme } = useTheme(); // Get the current theme from context
