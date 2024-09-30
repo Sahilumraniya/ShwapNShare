@@ -19,25 +19,27 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem(authCookieName) ?? cookieStorage.getItem(authCookieName);
-    accessTokenService.find({
-      headers: {
-        authorization: `Bearer ${token}`,
-      }
-    }).then(async (res) => {
-      if (res) {
-        console.log("App : ", res.accessToken);
-        const userData = res.user;
-        localStorage.setItem(authCookieName, res.accessToken);
-        cookieStorage.setItem(authCookieName, res.accessToken);
-        dispatch(login({ userData }));
-        await restApp.reAuthenticate();
-      } else {
-        dispatch(logout());
-      }
-    })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (token && token !== '') {
+      accessTokenService.find({
+        headers: {
+          authorization: `Bearer ${token}`,
+        }
+      }).then(async (res) => {
+        if (res) {
+          console.log("App : ", res.accessToken);
+          const userData = res.user;
+          localStorage.setItem(authCookieName, res.accessToken);
+          cookieStorage.setItem(authCookieName, res.accessToken);
+          dispatch(login({ userData }));
+          await restApp.reAuthenticate();
+        } else {
+          dispatch(logout());
+        }
+      })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
 
     // authserivce
     //   .getCurrentUser()
