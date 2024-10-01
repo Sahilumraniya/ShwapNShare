@@ -23,7 +23,7 @@ const CommentsSection = ({ comments, onAddComment, productId }) => {
     };
 
     return (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+        <div className="bg-white dark:bg-gray-800 py-6 shadow-md mt-3 md:mt-6 px-4 md:px-5 rounded-md">
             <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Comments</h2>
             <form onSubmit={handleCommentSubmit} className="mb-4">
                 <textarea

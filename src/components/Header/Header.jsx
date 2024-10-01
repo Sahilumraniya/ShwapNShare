@@ -28,7 +28,7 @@ const Header = () => {
       className={`sticky top-0 w-full z-[100] p-4 flex justify-between items-center ${theme ? "bg-gray-800" : "bg-white"}`}
     >
       <h1 className={`text-lg font-bold ${theme ? "text-cyan-400" : "text-gray-800"}`}>
-        Swap & Share
+        <Link to="/"> Swap & Share</Link>
       </h1>
       <div>
         <button

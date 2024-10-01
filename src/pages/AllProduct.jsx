@@ -21,7 +21,7 @@ const AllProduct = () => {
       try {
         const query = {
           $limit: PRODUCTS_PER_PAGE,
-          offset: (currentPage - 1) * PRODUCTS_PER_PAGE,
+          $skip: (currentPage - 1) * PRODUCTS_PER_PAGE,
         };
 
         if (searchQuery && searchQuery !== "") {
