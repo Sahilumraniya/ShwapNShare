@@ -44,11 +44,10 @@ const RoomsPage = () => { // Assume currentUserId is passed as a prop
 
     return (
         <div className="bg-white text-black py-10 dark:bg-gray-900 dark:text-white px-5 md:px-20">
-            <div className="flex items-center justify-between px-10">
-
-                <p className="text-4xl font-bold">Rooms</p>
+            <div className="flex flex-col md:flex-row items-center justify-between px-10 py-4">
+                <p className="text-4xl font-bold mb-4 md:mb-0">Rooms</p>
                 <Link
-                    className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
+                    className="bg-blue-500 text-white font-bold py-2 px-6 rounded hover:bg-blue-600 transition duration-200"
                     to="/create-room"
                 >
                     Create New Room
