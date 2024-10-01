@@ -6,11 +6,14 @@ import { useSelector } from 'react-redux';
 
 const Room = () => {
     const { id } = useParams();
+    const navigator = useNavigate();
 
     const userData = useSelector((state) => state.auth.userData);
 
     const myMeeting = async (element) => {
-
+        if (!userData) {
+            navigator("/login");
+        }
         // generate Kit Token
         const appID = conf.appId;
         const serverSecret = conf.serverSecret;
@@ -37,7 +40,6 @@ const Room = () => {
             }
         });
     }
-
 
     return (
         <div className="myCallContainer" ref={myMeeting} style={{ width: '100vw', height: '100vh' }}>
