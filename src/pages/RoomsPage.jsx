@@ -59,7 +59,7 @@ const RoomsPage = () => { // Assume currentUserId is passed as a prop
                     <li key={room.roomId} className="relative p-4 border rounded-lg shadow-md bg-gray-100 border-gray-300 dark:bg-gray-800 dark:border-gray-700">
                         <Link to={`/room/${room.roomId}`} className="block">
                             <h2 className='text-xl font-semibold'>Topic: {room.topic}</h2>
-                            <p><strong>Created By:</strong> {room.userId?.email.split("@")[0]}</p>
+                            <p><strong>Created By:</strong> {room.userId?.name ?? room.userId?.email.split("@")[0]}</p>
                             <p><strong>Created At:</strong> {new Date(room.createdAt).toLocaleString()}</p>
                         </Link>
                         {room.userId?._id === userData._id && (
