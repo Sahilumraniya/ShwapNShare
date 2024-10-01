@@ -6,6 +6,8 @@ const conf = {
     appwriteBucketId: String(import.meta.env.VITE_APPWRITE_BUCKET_ID),
     baseUrl: String(import.meta.env.VITE_BASEURL),
     cookieName: String(import.meta.env.VITE_COOKIE),
+    appId: Number(import.meta.env.VITE_APPID),
+    serverSecret: String(import.meta.env.VITE_SERVERSECRET)
 }
 
 export default conf;

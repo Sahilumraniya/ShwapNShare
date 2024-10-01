@@ -11,6 +11,9 @@ export const ApiRoutes = {
     //get-upload-url
     getUploadUrl: "v1/get-upload-url",
 
+    //room
+    room: "v1/room",
+
     //upload
-    upload:"v1/upload"
+    upload: "v1/upload"
 }

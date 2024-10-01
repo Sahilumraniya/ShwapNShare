@@ -18,14 +18,14 @@ const Header = () => {
     { name: "Home", slug: "/", active: true },
     { name: "Login", slug: "/login", active: !authStatus },
     { name: "Signup", slug: "/signup", active: !authStatus },
-    { name: "All Products", slug: "/all-product", active: authStatus },
-    { name: "Add Product", slug: "/add-product", active: authStatus },
+    { name: "Products", slug: "/all-product", active: authStatus },
+    { name: "Room", slug: "/rooms", active: authStatus },
     { name: "About Us", slug: "/aboutUS", active: true },
   ];
 
   return (
     <header
-      className={`fixed w-full z-[100] top-0 p-4 flex justify-between items-center ${theme ? "bg-gray-800" : "bg-white"}`}
+      className={`sticky top-0 w-full z-[100] p-4 flex justify-between items-center ${theme ? "bg-gray-800" : "bg-white"}`}
     >
       <h1 className={`text-lg font-bold ${theme ? "text-cyan-400" : "text-gray-800"}`}>
         Swap & Share

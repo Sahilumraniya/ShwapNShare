@@ -15,6 +15,9 @@ import PostProduct from "./pages/PostProduct.jsx";
 import { AuthLayout } from "./components/index.js";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { AboutUsPage } from "./pages/AboutUsPage.jsx";
+import CreateRoom from "./pages/CreateRoom.jsx";
+import Room from "./pages/Room.jsx";
+import RoomsPage from "./pages/RoomsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -52,10 +55,16 @@ const router = createBrowserRouter([
       {
         path: "/all-product",
         element: (
-          <AuthLayout authenication>
-            <AllProduct />
-          </AuthLayout>
+          <AllProduct />
         ),
+      },
+      {
+        path: "/create-room",
+        element: (
+          <AuthLayout authenication>
+            <CreateRoom />
+          </AuthLayout>
+        )
       },
       {
         path: "/product/:id",
@@ -64,6 +73,14 @@ const router = createBrowserRouter([
       {
         path: "/aboutUs",
         element: <AboutUsPage />
+      },
+      {
+        path: "/room/:id",
+        element: <Room />
+      }, {
+        path: "rooms",
+        element:
+          <RoomsPage />
       }
     ],
   },
