@@ -74,11 +74,11 @@ const AllProduct = () => {
       </div> */}
       {products.length > 0 ? (
         <div className="w-full py-8 bg-slate-200 dark:bg-slate-900 dark:text-white">
-          <div className="flex items-center justify-between px-10">
+          <div className="flex flex-col md:flex-row items-center justify-between px-10 py-4">
 
-            <p className="text-4xl font-bold">Products</p>
+            <p className="text-4xl font-bold mb-4 md:mb-0">Products</p>
             <Link
-              className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
+              className="bg-blue-500 text-white font-bold py-2 px-6 rounded hover:bg-blue-600 transition duration-200"
               to="/add-product"
             >
               Add Product
