@@ -29,7 +29,7 @@ const EditProduct = () => {
   }, [id, navigate]);
 
   return product ? (
-    <div className="py-8">
+    <div className="">
       <ProductForm product={product} />
     </div>
   ) : null;

@@ -69,18 +69,18 @@ const ProductProduct = () => {
 
   const getUserData = async (userId) => {
     if (!isUser) return navigate("/login");
-    const res = await userService.get(userData._id);
+    const res = await userService.get(product.userId);
     setEmail(res.email);
     return res;
   };
 
   return product ? (
     <section className={`bg-${theme ? 'gray-900' : 'gray-200'} text-${theme ? 'gray-400' : 'gray-800'} body-font overflow-hidden`}>
-      <div className="container px-5 py-24 mx-auto">
+      <div className="container px-5 my-7  mx-auto">
         <div className={`relative lg:w-4/5 mx-auto flex flex-col lg:flex-row items-center`}>
           <img
             alt="Product"
-            className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-fit rounded-lg shadow-lg"
+            className="lg:w-1/2 w-full lg:h-auto h-64 object-scale-down rounded-lg shadow-lg"
             src={product.images[0] || "https://dummyimage.com/400x400"}
           />
           {isAuthor && (
@@ -122,12 +122,55 @@ const ProductProduct = () => {
               </span>
             </div>
             <p className={`leading-relaxed mb-6 text-${theme ? 'gray-400' : 'gray-800'}`}>{product.description || "Product description goes here."}</p>
-            <div className="flex justify-between items-center">
-              <span className={`title-font font-medium text-2xl ${theme ? 'text-white' : 'text-black'}`}>{`₹${product.price || "58.00"}`}</span>
-              <Button onClick={handleActionClick} className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
-                Buy Now
-              </Button>
+            <div>
+              {/* Price Display */}
+              {product.items.length === 0 ? (
+                <div className="flex justify-between items-center mb-4">
+                  <span className={`title-font font-medium text-2xl ${theme ? 'text-white' : 'text-black'}`}>
+                    {`₹${product.price || "58.00"}`}
+                  </span>
+                  <Button
+                    onClick={handleActionClick}
+                    className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                  >
+                    Buy Now
+                  </Button>
+                </div>
+              ) : (
+                <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-md">
+                  <h3 className={`text-lg font-bold ${theme ? 'text-white' : 'text-black'}`}>Available for Exchange:</h3>
+                  <ul className="space-y-2 mt-2 flex flex-col">
+                    <li className={`flex items-center justify-between p-4 rounded-lg border ${theme ? 'border-gray-700' : 'border-gray-300'} bg-white dark:bg-gray-700`}>
+                      <div className="flex flex-wrap items-center">
+                        {product.items.map((item, index) => (
+                          <div key={index} className="flex items-center">
+                            <span className={`inline-flex text-lg font-medium ${theme ? 'text-white' : 'text-black'}`}>
+                              {item.map((name, i) => {
+
+                                if (i < item.length - 1) {
+                                  return (name + " | ")
+                                } else {
+                                  return name
+                                }
+                              })}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                      <Button
+                        onClick={handleActionClick}
+                        className="ml-4 text-white bg-green-500 border-0 py-1 px-3 focus:outline-none hover:bg-green-600 rounded"
+                      >
+                        Exchange
+                      </Button>
+                    </li>
+                  </ul>
+                </div>
+
+              )}
             </div>
+
+
             {showEmail && (
               <motion.div
                 className="mt-4"
@@ -146,9 +189,9 @@ const ProductProduct = () => {
             )}
           </div>
         </div>
+        <CommentsSection comments={comments} onAddComment={addComment} productId={product._id} />
       </div>
-      <CommentsSection comments={comments} onAddComment={addComment} productId={product._id} />
-    </section>
+    </section >
   ) : (
     <Loading />
   );
