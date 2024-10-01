@@ -64,3 +64,4 @@ export const productService = restApp.service(ApiRoutes.product);
 export const getUploadUrlService = restApp.service(ApiRoutes.getUploadUrl);
 export const uploadService = restApp.service(ApiRoutes.upload);
 export const accessTokenService = restApp.service(ApiRoutes.accesToken);
+export const roomTokenService = restApp.service(ApiRoutes.room);

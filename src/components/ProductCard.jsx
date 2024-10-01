@@ -16,7 +16,7 @@ const ProductCard = ({ _id, images, name, description, isExchange, price }) => {
           {isExchange && !price ? (
             <span className="text-green-400">Exchange Available</span>
           ) : (
-            `$${price}`
+            `₹${price}`
           )}
         </p>
         <button className="mt-2 text-sm rounded-md p-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-300">
