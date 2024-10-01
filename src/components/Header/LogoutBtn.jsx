@@ -15,7 +15,7 @@ const LogoutBtn = ({ theme }) => {
     setLoading(true);
     try {
       // await authserivce.logout(); // Uncomment if you have a logout service
-      console.log("Logging out successful, showing toast");
+      // console.log("Logging out successful, showing toast");
       toast.success("Logged out successfully");
       localStorage.clear();
       cookieStorage.clear();

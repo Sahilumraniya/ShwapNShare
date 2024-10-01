@@ -22,7 +22,7 @@ const Home = () => {
         $limit: 4
       }
     }).then((res) => {
-      console.log("Product :: ", res);
+      // console.log("Product :: ", res);
       if (res) {
         setProducts(res.data);
       }

@@ -21,7 +21,7 @@ const CreateRoom = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         // Logic to create a video call room
-        console.log(`Creating video call room for topic: ${topic}`);
+        // console.log(`Creating video call room for topic: ${topic}`);
         const roomId = randomID(10);
         if (userData) {
             roomTokenService.create({
@@ -32,7 +32,7 @@ const CreateRoom = () => {
                 navigate(`/room/${roomId}`);
                 toast("Room created", { type: "success" })
             }).catch((e) => {
-                console.log("Error ::", e);
+                console.error("Error ::", e);
 
                 toast("Error while creating room", { type: "error" })
             })

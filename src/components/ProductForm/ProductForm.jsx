@@ -92,7 +92,7 @@ const ProductForm = ({ product }) => {
             fileNames: [data.images[0].name]
           })
           : null;
-        console.log("file ::", file.uploadURL);
+        // console.log("file ::", file.uploadURL);
         await axios.put(file.uploadURL[0].url, data.images[0], {
           headers: {
             'Content-Type': file.type,
