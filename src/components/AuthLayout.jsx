@@ -15,7 +15,7 @@ export default function Protected({ children, authenication = true }) {
     if (authenication && authStatus !== authenication) {
       navigate("/login");
     } else if (!authenication && authStatus === authenication) {
-      console.log("authStatus", authStatus);
+      // console.log("authStatus", authStatus);
       navigate("/");
     }
     setLoading(false);

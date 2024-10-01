@@ -14,6 +14,9 @@ export const ApiRoutes = {
     //room
     room: "v1/room",
 
+    //comment
+    comment:"v1/comment-management",
+
     //upload
     upload: "v1/upload"
 }

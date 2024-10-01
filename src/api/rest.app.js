@@ -16,7 +16,7 @@ import conf from "../conf/conf";
 
 export const cookieStorage = new CookieStorage();
 
-console.log("Test ::", conf.baseUrl);
+// console.log("Test ::", conf.baseUrl);
 
 const restClient = rest(conf.baseUrl);
 
@@ -65,3 +65,4 @@ export const getUploadUrlService = restApp.service(ApiRoutes.getUploadUrl);
 export const uploadService = restApp.service(ApiRoutes.upload);
 export const accessTokenService = restApp.service(ApiRoutes.accesToken);
 export const roomTokenService = restApp.service(ApiRoutes.room);
+export const commentService = restApp.service(ApiRoutes.comment);

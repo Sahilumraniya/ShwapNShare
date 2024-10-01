@@ -3,8 +3,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Loading } from "../components";
 import { useSelector } from "react-redux";
 import { motion } from 'framer-motion';
-import { productService, uploadService, userService } from "../api/rest.app";
+import { commentService, productService, uploadService, userService } from "../api/rest.app";
 import { useTheme } from '../context/ThemeContext'; // Import the theme context
+import CommentsSection from "../components/CommentSeaction";
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -26,6 +27,8 @@ const ProductProduct = () => {
   const isUser = useSelector((state) => state.auth.status);
   const [isAuthor, setIsAuthor] = useState(false);
   const [showEmail, setShowEmail] = useState(false);
+  const [comments, setComments] = useState([
+  ]);
 
   const handleActionClick = () => {
     setShowEmail(true);
@@ -38,12 +41,24 @@ const ProductProduct = () => {
         if (res) {
           setProduct(res);
           setIsAuthor(res.userId === userData._id);
+
+          commentService.find({
+            query: {
+              productId: res._id,
+              $limit: -1
+            }
+          }).then((data) => setComments(data));
+
         }
       });
     } else {
       navigate("/");
     }
   }, [id, navigate]);
+
+  const addComment = (newComment) => {
+    setComments([...comments, newComment]);
+  };
 
   const deleteProduct = async () => {
     if (!isUser) return navigate("/login");
@@ -132,6 +147,7 @@ const ProductProduct = () => {
           </div>
         </div>
       </div>
+      <CommentsSection comments={comments} onAddComment={addComment} productId={product._id} />
     </section>
   ) : (
     <Loading />

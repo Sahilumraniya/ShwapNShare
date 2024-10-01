@@ -19,7 +19,7 @@ const RoomsPage = () => { // Assume currentUserId is passed as a prop
                         $populate: "userId"
                     }
                 });
-                console.log(data.data);
+                // console.log(data.data);
                 setRooms(data.data);
             } catch (error) {
                 console.error("Error fetching rooms:", error);

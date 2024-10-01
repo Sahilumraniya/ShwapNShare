@@ -28,7 +28,7 @@ export const FloatingNav = ({
   const handleLogout = async () => {
     try {
       // await authserivce.logout();
-      console.log("Logging out successful, showing toast");
+      // console.log("Logging out successful, showing toast");
       toast.success("Logged out successfully");
       // sessionStorage.clear();
       localStorage.clear();
