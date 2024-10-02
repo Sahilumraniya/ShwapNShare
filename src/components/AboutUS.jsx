@@ -17,7 +17,7 @@ function About() {
       >
         About Us
       </motion.h1>
-      <TextGenerateEffect className="mx-5 md:mx-32 md:mb-20 text-center flex justify-center items-center" words="Online TradeHub is an online exchange platform that brings together users looking to trade various items. From shoes to books, and even electronics, we’re here to promote sustainable consumption and community engagement. Our goal is to create a sharing economy where everyone can benefit." />
+      <TextGenerateEffect className="mx-5 md:mx-32 md:mb-20 text-center flex justify-center items-center" words="Online Swap & Share is an online exchange platform that brings together users looking to trade various items. From shoes to books, and even electronics, we’re here to promote sustainable consumption and community engagement. Our goal is to create a sharing economy where everyone can benefit." />
     </div>
 
   );
