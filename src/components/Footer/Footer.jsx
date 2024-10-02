@@ -9,9 +9,9 @@ const Footer = () => {
     <footer className={`relative w-full bottom-0 py-8 ${theme ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}>
       <div className="container mx-auto flex flex-col md:flex-row justify-between px-4">
         <div className="md:w-1/3">
-          <h3 className="text-2xl font-bold">Online TradeHub</h3>
+          <h3 className="text-2xl font-bold">Online Swap & Share</h3>
           <p className={`mt-4 ${theme ? 'text-gray-400' : 'text-gray-600'}`}>
-            Thanks for choosing Online TradeHub. Follow us on social media to stay up to date on new items and community events.
+            Thanks for choosing Online Swap & Share. Follow us on social media to stay up to date on new items and community events.
           </p>
           <div className="mt-4 flex space-x-4">
             <motion.a href="#" className="text-blue-400 hover:text-blue-600" whileHover={{ scale: 1.2 }}>
@@ -66,7 +66,7 @@ const Footer = () => {
 
       <div className="border-t mt-8 pt-4 text-center">
         <p className={`text-gray-400 ${theme ? 'dark:text-gray-400' : 'light:text-gray-600'}`}>
-          &copy; {new Date().getFullYear()} Online TradeHub. All rights reserved.
+          &copy; {new Date().getFullYear()} Online Swap & Share. All rights reserved.
         </p>
       </div>
     </footer>
