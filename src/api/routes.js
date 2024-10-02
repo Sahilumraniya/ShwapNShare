@@ -12,7 +12,7 @@ export const ApiRoutes = {
     getUploadUrl: "v1/get-upload-url",
 
     //room
-    room: "v1/room",
+    room: "v1/room-management",
 
     //comment
     comment:"v1/comment-management",
