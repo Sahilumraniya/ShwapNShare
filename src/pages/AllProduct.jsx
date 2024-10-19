@@ -72,36 +72,32 @@ const AllProduct = () => {
           className="p-2 border rounded w-full"
         />
       </div> */}
-      {products.length > 0 ? (
-        <div className="w-full py-8 bg-slate-200 dark:bg-slate-900 dark:text-white">
-          <div className="flex flex-col md:flex-row items-center justify-between px-10 py-4">
+      <div className="w-full py-8 bg-slate-200 dark:bg-slate-900 dark:text-white">
+        <div className="flex flex-col md:flex-row items-center justify-between px-10 py-4">
 
-            <p className="text-4xl font-bold mb-4 md:mb-0">Products</p>
-            <Link
-              className="bg-blue-500 text-white font-bold py-2 px-6 rounded hover:bg-blue-600 transition duration-200"
-              to="/add-product"
-            >
-              Add Product
-            </Link>
-          </div>
-          <div className="flex flex-wrap items-center justify-center my-11 mx-2 md:mx-4 w-full gap-x-5 gap-y-10">
-            {products.map((product) => (
-              <div key={product._id}>
-                <ProductCard {...product} />
-              </div>
-            ))}
-          </div>
-          <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
+          <p className="text-4xl font-bold mb-4 md:mb-0">Products</p>
+          <Link
+            className="bg-blue-500 text-white font-bold py-2 px-6 rounded hover:bg-blue-600 transition duration-200"
+            to="/add-product"
+          >
+            Add Product
+          </Link>
         </div>
-      ) : (
-        <div className="text-center w-full h-full flex items-center justify-center">
+        {products.length > 0 ? <div className="flex flex-wrap items-center justify-center my-11 mx-2 md:mx-4 w-full gap-x-5 gap-y-10">
+          {products.map((product) => (
+            <div key={product._id}>
+              <ProductCard {...product} />
+            </div>
+          ))}
+        </div> : <div className="text-center w-full h-full flex items-center justify-center">
           <img
-            className="w-full rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105"
+            className="w-full rounded-lg shadow-md overflow-hidden transition-transform transform"
             src={NoProduct}
             alt="No product"
           />
-        </div>
-      )}
+        </div>}
+        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
+      </div>
     </div>
   );
 };

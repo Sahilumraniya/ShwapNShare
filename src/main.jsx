@@ -18,6 +18,8 @@ import { AboutUsPage } from "./pages/AboutUsPage.jsx";
 import CreateRoom from "./pages/CreateRoom.jsx";
 import Room from "./pages/Room.jsx";
 import RoomsPage from "./pages/RoomsPage.jsx";
+import conf from "./conf/conf.js";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const router = createBrowserRouter([
   {
@@ -90,7 +92,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider>
       <Provider store={store}>
-        <RouterProvider router={router} />
+        <GoogleOAuthProvider clientId={conf.googleClientId}>
+          <RouterProvider router={router} />
+        </GoogleOAuthProvider>
       </Provider>
     </ThemeProvider>
   </React.StrictMode>
