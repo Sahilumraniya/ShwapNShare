@@ -51,7 +51,6 @@ const Login = () => {
 
   const handleGoogleLogin = async (credentialResponse) => {
     try {
-      console.log("credentialResponse", credentialResponse);
       const { credential } = credentialResponse;
       // const decodedToken = jwtDecode(token);
 
