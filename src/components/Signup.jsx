@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import authserivce from "../appwrite/auth";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/authSlice";
@@ -10,18 +9,20 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { cn } from "../lib/util";
 import { toast } from "react-toastify";
-import { authenticationService, userService } from "../api/rest.app";
+import { authenticationService, userService, restApp, authCookieName, cookieStorage } from "../api/rest.app";
+import Loading from "./Loading";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const createUser = async (data) => {
-    setError("");
     try {
       // const userData = await authserivce.createAccount(data);
+      setLoading(true);
       const userData = await userService.create(data);
 
       // console.log("userData ::", userData);
@@ -35,22 +36,64 @@ const Signup = () => {
           strategy: "local"
         });
 
+
+
         // const uData = await userService.get(userData._id);
 
         if (session) {
+          localStorage.setItem(authCookieName, session.accessToken);
+          cookieStorage.setItem(authCookieName, session.accessToken);
+          await restApp.reAuthenticate();
           toast("Account created successfully", { type: "success" });
-
           const userData = session.user;
-
           dispatch(login({ userData }));
+          setLoading(false);
           navigate("/");
         }
       }
     } catch (e) {
-      setError(e.message);
+      setLoading(false);
       toast(e.message, { type: "error" });
+    } finally {
+      setLoading(false);
     }
   };
+
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      console.log("credentialResponse", credentialResponse);
+      const { credential } = credentialResponse;
+      // const decodedToken = jwtDecode(token);
+
+      // const user = {
+      //   googleId: decodedToken.sub, // Google ID
+      //   email: decodedToken.email,
+      //   name: decodedToken.name,
+      // };
+      // console.log("user", user);
+      const session = await authenticationService.create({
+        strategy: 'google',
+        payload: credential,
+      });
+      localStorage.setItem(authCookieName, session.accessToekn);
+      cookieStorage.setItem(authCookieName, session.accessToekn);
+      await restApp.reAuthenticate();
+
+      const userData = await userService.get(session.user._id);
+      if (userData) {
+        toast("Login successful", { type: "success" });
+        dispatch(login({ userData }));
+        navigate("/");
+      }
+    } catch (error) {
+      setError(error.message);
+      toast(error.message, { type: "error" });
+    }
+  };
+
+  if (loading) {
+    return <Loading />
+  }
 
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
@@ -85,7 +128,24 @@ const Signup = () => {
         </button>
 
         <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
-
+        <div className="my-5">
+          <GoogleLogin
+            onSuccess={handleGoogleLogin}
+            onError={() => {
+              toast("Sinup Failed", { type: "error" });
+            }}
+            allowed_parent_origin={window.location.origin}
+            auto_select={true}
+            cancel_on_tap_outside={true}
+            theme="dark"
+            shape="pill"
+            context="signup"
+            itp_support={true}
+            promptMomentNotification={true}
+            text="Login with Google"
+            ux_mode="popup"
+          />
+        </div>
         <div className="text-center text-neutral-600 dark:text-neutral-300">
           Already have an account?{" "}
           <Link to="/login" className="text-primary">

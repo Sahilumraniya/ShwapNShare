@@ -7,7 +7,8 @@ const conf = {
     baseUrl: String(import.meta.env.VITE_BASEURL),
     cookieName: String(import.meta.env.VITE_COOKIE),
     appId: Number(import.meta.env.VITE_APPID),
-    serverSecret: String(import.meta.env.VITE_SERVERSECRET)
+    serverSecret: String(import.meta.env.VITE_SERVERSECRET),
+    googleClientId: String(import.meta.env.VITE_GOOGLE_CLIENT_ID),
 }
 
 export default conf;

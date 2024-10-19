@@ -1,17 +1,15 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/authSlice";
 import { useDispatch } from "react-redux";
-import authservice from "../appwrite/auth"; // Ensure you import the correct service
 import { useForm } from "react-hook-form";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { cn } from "../lib/util";
 import Loading from "./Loading";
 import { toast } from "react-toastify";
-import restApp, { authCookieName, authenticationService, cookieStorage, userService } from "../api/rest.app";
+import { GoogleLogin } from '@react-oauth/google';
+import restApp, { authCookieName, authenticationService, cookieStorage, googleService, userService } from "../api/rest.app";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,7 +18,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handlelogin = async (data) => {
+  const handleLogin = async (data) => {
     setLoading(true);
     setError("");
     try {
@@ -32,7 +30,8 @@ const Login = () => {
 
       localStorage.setItem(authCookieName, session.accessToken);
       cookieStorage.setItem(authCookieName, session.accessToken);
-      await restApp.reAuthenticate();
+      const test = await restApp.reAuthenticate();
+      console.log("test", test);
 
       if (session) {
         const userData = await userService.get(session.user._id);
@@ -50,6 +49,38 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      const { credential } = credentialResponse;
+      // const decodedToken = jwtDecode(token);
+
+      // const user = {
+      //   googleId: decodedToken.sub, // Google ID
+      //   email: decodedToken.email,
+      //   name: decodedToken.name,
+      // };
+      // console.log("user", user);
+      const session = await authenticationService.create({
+        strategy: 'google',
+        payload: credential,
+      });
+      localStorage.setItem(authCookieName, session.accessToekn);
+      cookieStorage.setItem(authCookieName, session.accessToekn);
+      await restApp.reAuthenticate();
+
+      const userData = await userService.get(session.user._id);
+      if (userData) {
+        toast("Login successful", { type: "success" });
+        dispatch(login({ userData }));
+        navigate("/");
+      }
+    } catch (error) {
+      setError(error.message);
+      toast(error.message, { type: "error" });
+    }
+  };
+
+
   return (
     <div className="max-w-md w-full mx-auto rounded-lg p-6 md:p-8 shadow-lg bg-white dark:bg-gray-800 transition duration-300">
       {loading && <Loading />}
@@ -59,7 +90,7 @@ const Login = () => {
       <p className="text-gray-600 text-sm mt-2 dark:text-gray-400">
         Login to SwapNShare if you can because we don&apos;t have a login flow yet.
       </p>
-      <form className="my-8" onSubmit={handleSubmit(handlelogin)}>
+      <form className="my-8" onSubmit={handleSubmit(handleLogin)}>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
           <Input id="email" placeholder="example@domain.com" type="email" {...register("email", { required: true })} />
@@ -78,7 +109,24 @@ const Login = () => {
         </button>
 
         <div className="bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent my-8 h-[1px] w-full" />
-
+        <div className="my-5">
+          <GoogleLogin
+            onSuccess={handleGoogleLogin}
+            onError={() => {
+              toast("Login Failed", { type: "error" });
+            }}
+            allowed_parent_origin={window.location.origin}
+            auto_select={true}
+            cancel_on_tap_outside={true}
+            theme="dark"
+            shape="pill"
+            context="signup"
+            itp_support={true}
+            promptMomentNotification={true}
+            text="Login with Google"
+            ux_mode="popup"
+          />
+        </div>
         <div className="text-center text-gray-600 dark:text-gray-400">
           If you don&apos;t have an account?{" "}
           <Link to="/signup" className="text-blue-500 hover:underline">

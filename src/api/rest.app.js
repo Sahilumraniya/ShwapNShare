@@ -66,3 +66,4 @@ export const uploadService = restApp.service(ApiRoutes.upload);
 export const accessTokenService = restApp.service(ApiRoutes.accesToken);
 export const roomTokenService = restApp.service(ApiRoutes.room);
 export const commentService = restApp.service(ApiRoutes.comment);
+export const googleService = restApp.service(ApiRoutes.google);

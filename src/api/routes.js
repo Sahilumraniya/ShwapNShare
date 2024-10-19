@@ -1,9 +1,10 @@
 export const ApiRoutes = {
-    authentication: "/authentication",
+    authentication: "v1/authentication",
     accesToken: "v1/access-token",
 
     //user
     user: "v1/user-management",
+    google: "auth/google/callback",
 
     //product
     product: "v1/product-management",
@@ -15,7 +16,7 @@ export const ApiRoutes = {
     room: "v1/room-management",
 
     //comment
-    comment:"v1/comment-management",
+    comment: "v1/comment-management",
 
     //upload
     upload: "v1/upload"
