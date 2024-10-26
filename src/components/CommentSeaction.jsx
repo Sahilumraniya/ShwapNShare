@@ -16,7 +16,7 @@ const CommentsSection = ({ comments, onAddComment, productId }) => {
                 comment: commentText,
                 productId,
             }).then(() => {
-                onAddComment(commentText);
+                onAddComment({ commentText, productId, createdAt: new Date() });
             })
             setCommentText(''); // Clear the input after submission
         }
@@ -43,6 +43,7 @@ const CommentsSection = ({ comments, onAddComment, productId }) => {
             </form>
             <div className="space-y-4">
                 {comments.map((comment) => {
+                    console.log("C ::", comment);
                     const commentDate = new Date(comment.createdAt);
                     return (
                         <div key={comment._id} className="p-4 border rounded-lg shadow-sm bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600">
