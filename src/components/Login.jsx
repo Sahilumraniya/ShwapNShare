@@ -51,6 +51,8 @@ const Login = () => {
 
   const handleGoogleLogin = async (credentialResponse) => {
     try {
+
+      setLoading(true);
       const { credential } = credentialResponse;
       // const decodedToken = jwtDecode(token);
 
@@ -75,8 +77,11 @@ const Login = () => {
         navigate("/");
       }
     } catch (error) {
+      setLoading(false);
       setError(error.message);
       toast(error.message, { type: "error" });
+    } finally {
+      setLoading(false);
     }
   };
 
