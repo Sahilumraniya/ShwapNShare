@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { commentService } from '../api/rest.app';
 import { formatDistanceToNow } from 'date-fns';
+import { useSelector } from 'react-redux';
 
 const CommentsSection = ({ comments, onAddComment, productId }) => {
     const [commentText, setCommentText] = useState('');
+    const user  = useSelector((state) => state.auth.userData);
+    // console.log("C ::", user);
 
     const handleCommentChange = (e) => {
         setCommentText(e.target.value);
@@ -16,7 +19,7 @@ const CommentsSection = ({ comments, onAddComment, productId }) => {
                 comment: commentText,
                 productId,
             }).then(() => {
-                onAddComment({ commentText, productId, createdAt: new Date() });
+                onAddComment({ _id:5923 , comment: commentText, productId, createdAt: new Date(), userName: user.name });
             })
             setCommentText(''); // Clear the input after submission
         }
